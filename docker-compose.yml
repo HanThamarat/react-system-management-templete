@@ -1,0 +1,123 @@
+# เวอร์ชั่น docker compose ที่ใช้ในการ build
+version: '3.8'
+
+# service ที่ทั้งหมดที่ใช้
+services:
+
+  # redis server
+  redis:
+    # เมื่อ container มีการเปลียนแปลงให้ restart ตลอด
+    restart: always
+    # os ที่ต้องการใช้ใน containerx
+    platform: linux/x86_64
+    # iamge ที่ใช้ image สามารถดูจาก docker hub ได้
+    image: redis:latest
+    # ชื่อ container
+    container_name: BookingOasis-redisServer
+    # การ map port ระหว่าง container กับ public port ex -> public:contailner
+    ports:
+      - 6379:6379
+    # การ map volumes ระหว่าง container กับ project ex -> porject path:contailner path
+    # ประโยชน์ เมื่อมีการเปลี่ยน code ใน path ของ project ใน container จะเปลียนตามไปด้วย
+    volumes:
+      - .docker/redis:/db
+    # การ set network ให้ container
+    networks:
+      - oasisNetwork
+    # การทำ condition ว่า image ว่า service สามารถทำงานได้
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+
+  # redis gui
+  redis_insight:
+    # os ที่ต้องการใช้ใน container
+    platform: linux/x86_64
+    # iamge ที่ใช้ image สามารถดูจาก docker hub ได้
+    image: redislabs/redisinsight:1.14.0
+    # ชื่อ container
+    container_name: redis_insight_of_bookingOasis
+    # เมื่อ container มีการเปลียนแปลงให้ restart ตลอด
+    restart: always
+    # การ map port ระหว่าง container กับ public port ex -> public:contailner
+    ports:
+      - 8001:8001
+    # การ map volumes ระหว่าง container กับ project ex -> porject path:contailner path
+    # ประโยชน์ เมื่อมีการเปลี่ยน code ใน path ของ project ใน container จะเปลียนตามไปด้วย
+    volumes:
+      - .docker/redisinsight:/db
+    # การ set network ให้ container
+    networks:
+      - oasisNetwork
+    # depends_on คือการทำให้ 2 service ใช้งานร่วมกันได้
+    depends_on:
+      - redis
+
+  # frontend container
+  frontend:
+    restart: always
+    platform: linux/x86_64
+    container_name: BookingOasis-frontend
+    build: ./frontend
+    ports:
+      - '5173:5173'
+    # run คำสั่งที่ต้องการ
+    command: npm run dev
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend
+          target: /app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
+    # การ map volumes ระหว่าง container กับ project ex -> porject path:contailner path
+    # ประโยชน์ เมื่อมีการเปลี่ยน code ใน path ของ project ใน container จะเปลียนตามไปด้วย
+    volumes:
+      - ./frontend/:/app
+      - /app/node_modules
+    networks:
+      - oasisNetwork
+    environment:
+      - CHOKIDAR_USEPOLLING=true #เพื่อการ docker auto run ในระบบที่ไม่รองรับ inotify เช่น Windows
+      - WATCHPACK_POLLING=true #ใช้เพื่อสั่งให้ Watchpack ใช้ polling แทนระบบ inotify ที่ไม่รองรับ Docker ใน Windows
+
+  backend:
+    restart: always
+    platform: linux/x86_64
+    container_name: BookingOasis-backend
+    build: ./backend
+    ports:
+      - '3000:3000'
+    command: npm run dev
+    develop:
+      watch:
+        - action: sync
+          path: ./backend
+          target: /app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
+    # การ map volumes ระหว่าง container กับ project ex -> porject path:contailner path
+    # ประโยชน์ เมื่อมีการเปลี่ยน code ใน path ของ project ใน container จะเปลียนตามไปด้วย
+    volumes:
+      - ./backend/:/app
+      - /app/node_modules
+    # การ set env ของ node
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    networks:
+      - oasisNetwork
+    # depends_on คือการทำให้ 2 service ใช้งานร่วมกันได้
+    depends_on:
+      redis:
+        condition: service_healthy
+
+networks:
+  oasisNetwork:
+    driver: bridge

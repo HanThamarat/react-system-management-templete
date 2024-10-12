@@ -1,0 +1,152 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// customer and agentcy table
+model agentcys {
+  id                  Int                  @id @default(autoincrement())
+  username            String?               @unique
+  firstName           String?
+  lastName            String?
+  email               String               @unique
+  emailVerify         confirm              @default(no)
+  emailCodeVerify     String?
+  emailcodeDT         DateTime?
+  password            String?
+  phoneNumber         String?
+  gender              String?
+  picture             String?
+  personalInformation personalInformation? @relation(fields: [personaId], references: [id])
+  personaId           Int?
+  agentRole           agentcyRole?         @relation(fields: [agentcyRole], references: [id])
+  agentcyRole         Int?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  accounts            accounts[]
+  packages            packages[]
+}
+
+model personalInformation {
+  id           Int        @id @default(autoincrement())
+  personalName String?
+  lon          String?
+  lat          String?
+  phoneNumber  String?
+  zipCode      String?
+  address      String?
+  description  String?
+  Agent        agentcys[]
+}
+
+model customers {
+  id           Int        @id @default(autoincrement())
+  uuid         String     @unique
+  firstName    String?
+  lastName     String?
+  picture      String?
+  email        String?       
+  verifyCode   String?
+  verifyEmail  confirm    @default(no)
+  cardId       String?
+  tripId       String?
+  prefixNumber String?
+  phoneNumber  String?
+  password     String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  account      accounts[]
+}
+
+model accounts {
+  id                 String     @id @default(cuid())
+  agentcyId          Int?
+  customerId         Int?
+  providerType       String
+  providerId         String
+  providerAccountId  String
+  refreshToken       String?
+  accessToken        String?
+  accessTokenExpires DateTime?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  agent              agentcys?  @relation(fields: [agentcyId], references: [id])
+  customer           customers? @relation(fields: [customerId], references: [id])
+
+  @@unique([providerId, providerAccountId])
+}
+
+// tables about this system
+model packages {
+  id                 Int           @id @default(autoincrement())
+  packageName        String?
+  packageDescription String?
+  GroupPrice         Decimal?
+  adultPrice         Decimal?
+  childPrice         Decimal?
+  pkType             packageTypes? @relation(fields: [packageType], references: [id])
+  packageType        Int?
+  packagePicture     String?
+  packageActive      active        @default(inactive)
+  packageAllow       confirm       @default(no)
+  agentcy            agentcys?     @relation(fields: [agentcyInsert], references: [id])
+  agentcyInsert      Int?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  pro                promotion[]
+}
+
+model promotion {
+  id          Int       @id @default(autoincrement())
+  proNameTH   String?
+  proNameEN   String?
+  description String?
+  percent     String?
+  startDate   DateTime?
+  endDate     DateTime?
+  pack        packages? @relation(fields: [packageId], references: [id])
+  packageId   Int?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// const table
+model agentcyRole {
+  id          Int        @id @default(autoincrement())
+  nameEng     String?
+  nameTH      String?
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  agents      agentcys[]
+}
+
+model packageTypes {
+  id          Int        @id @default(autoincrement())
+  nameEng     String?
+  nameTH      String?
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  packages    packages[]
+}
+
+enum confirm {
+  yes
+  no
+}
+
+enum active {
+  active
+  inactive
+}
