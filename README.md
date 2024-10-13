@@ -1,4 +1,4 @@
-# In this project is System Management Templete and Content Management System Templete
+# In this project is a System Management Templete and Content Management System Templete
 
 Feature
 - authenticate using passport
