@@ -44,7 +44,7 @@ Back-End
 
 # Quick start
 
-When Clone this project after give your cd to path of project and used
+When Clone this project after give open terminal or command line on your computer and cd to path of project and used command
 ```
 docker compose up
 
@@ -54,18 +54,18 @@ using container run is a background on os
 docker compose up -d --build
 ```
 
-When container runing used ssh to container also migrate database
+When container runing used ssh to container for migration schema of prisma go in the database engine
 ```
 is a using ssh connect to container
 docker exec -it <container name or container id> sh
 ```
 
-When connect to container success and used
+When connect to container success and used command then will do migration database
 ```
 npx prisma migrate dev --name <migrate name>
 ```
 
-endpoint of all services in docker compose
+endpoint of all services in project
 ```
 fontend -> 127.0.0.1:5173
 backend -> 127.0.0.1:3000
