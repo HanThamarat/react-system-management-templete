@@ -1,4 +1,8 @@
-# OASIS HOMES MANAGEMENT SYSTEM
+# In this project is a System Management Templete and Content Management System Templete
+
+Feature
+- authenticate using passport
+- UX/UI
 
 Front-End
 
@@ -40,35 +44,32 @@ Back-End
 
 # Quick start
 
-เมื่อ Clone ตัว project มาแล้วให้ cd เข้าไปที่ path ของ project แล้วใช้คำสั่ง
+When Clone this project after give open terminal or command line on your computer and cd to path of project and used command
 ```
 docker compose up
 
 or
 
-ใช้เพื่อให้ container run เป็น background ไปเลย
+using container run is a background on os
 docker compose up -d --build
 ```
 
-เมื่อ container run อยู่ให้ทำการ ssh เข้าไปที่ container เพื่อ migrate database
+When container runing used ssh to container for migration schema of prisma go in the database engine
 ```
-เป็นคำสั่งที่ใช้ในการ ssh เข้าไปใน container
+is a using ssh connect to container
 docker exec -it <container name or container id> sh
 ```
 
-เมื่อเข้าไปยัง container แล้ว ให้ใช้คำสั่ง
+When connect to container success and used command then will do migration database
 ```
 npx prisma migrate dev --name <migrate name>
 ```
 
-endpoint ของ service แต่ละตัว
+endpoint of all services in project
 ```
-fontend -> 127.0.0.1:4000
+fontend -> 127.0.0.1:5173
 backend -> 127.0.0.1:3000
 redis gui -> 127.0.0.1:8001
 redis cli -> 127.0.0.1:6379
 pg database -> 127.0.0.1:5432
 ```
-
-
-
