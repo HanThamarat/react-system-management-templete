@@ -54,7 +54,7 @@ using container run is a background on os
 docker compose up -d --build
 ```
 
-When container run used ssh to container also migrate database
+When container runing used ssh to container also migrate database
 ```
 is a using ssh connect to container
 docker exec -it <container name or container id> sh
@@ -67,7 +67,7 @@ npx prisma migrate dev --name <migrate name>
 
 endpoint of all services in docker compose
 ```
-fontend -> 127.0.0.1:4000
+fontend -> 127.0.0.1:5173
 backend -> 127.0.0.1:3000
 redis gui -> 127.0.0.1:8001
 redis cli -> 127.0.0.1:6379
