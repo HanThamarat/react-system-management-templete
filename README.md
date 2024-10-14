@@ -44,28 +44,28 @@ Back-End
 
 # Quick start
 
-เมื่อ Clone ตัว project มาแล้วให้ cd เข้าไปที่ path ของ project แล้วใช้คำสั่ง
+When Clone this project after give your cd to path of project and used
 ```
 docker compose up
 
 or
 
-ใช้เพื่อให้ container run เป็น background ไปเลย
+using container run is a background on os
 docker compose up -d --build
 ```
 
-เมื่อ container run อยู่ให้ทำการ ssh เข้าไปที่ container เพื่อ migrate database
+When container run used ssh to container also migrate database
 ```
-เป็นคำสั่งที่ใช้ในการ ssh เข้าไปใน container
+is a using ssh connect to container
 docker exec -it <container name or container id> sh
 ```
 
-เมื่อเข้าไปยัง container แล้ว ให้ใช้คำสั่ง
+When connect to container success and used
 ```
 npx prisma migrate dev --name <migrate name>
 ```
 
-endpoint ของ service แต่ละตัว
+endpoint of all services in docker compose
 ```
 fontend -> 127.0.0.1:4000
 backend -> 127.0.0.1:3000
