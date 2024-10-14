@@ -65,7 +65,7 @@ When connect to container success and used command then will do migration databa
 npx prisma migrate dev --name <migrate name>
 ```
 
-endpoint of all services in project
+Endpoint of all services in project
 ```
 fontend -> 127.0.0.1:5173
 backend -> 127.0.0.1:3000
