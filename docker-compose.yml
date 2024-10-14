@@ -3,6 +3,37 @@ version: '3.8'
 
 # service ที่ทั้งหมดที่ใช้
 services:
+  # pg database
+  postgreSql:
+    # เมื่อ container มีการเปลียนแปลงให้ restart ตลอด
+    restart: always
+    # os ที่ต้องการใช้ใน container
+    platform: linux/x86_64
+    # ชื่อ container
+    container_name: locker-postgresdb
+    # iamge ที่ใช้ image สามารถดูจาก docker hub ได้
+    image: postgres:latest
+    # การ map port ระหว่าง container กับ public port ex -> public:contailner
+    ports:
+      - 5432:5432
+    # การ map volumes ระหว่าง container กับ project ex -> porject path:contailner path
+    # ประโยชน์ เมื่อมีการเปลี่ยน code ใน path ของ project ใน container จะเปลียนตามไปด้วย
+    volumes:
+      - .docker/postgreSql:/var/lib/postgresql/data
+    # env ของ pg database
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
+      - POSTGRES_DB=LockerDB
+    # การ set network ให้ container
+    networks:
+      - backend
+    # การทำ condition ว่า image ว่า service สามารถทำงานได้
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # redis server
   redis:
@@ -116,6 +147,8 @@ services:
     # depends_on คือการทำให้ 2 service ใช้งานร่วมกันได้
     depends_on:
       redis:
+        condition: service_healthy
+      postgreSql:
         condition: service_healthy
 
 networks:

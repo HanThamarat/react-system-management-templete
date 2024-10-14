@@ -37,7 +37,7 @@ const SliderComponent = () => {
 
     return(
         <div className={`h-screen bg-white ${ sliderSize === 'true' || sliderSize === true ? 'w-[75px]' : 'w-[270px]' } lg:w-[75px] duration-100 ease-in-out`}>
-            <div className={`font-primaryBold uppercase text-white flex items-center h-[70px] lg:justify-center px-3 ${ sliderSize === 'true' || sliderSize === true ? 'justify-center' : 'justify-between' }`}>
+            <div className={`font-primaryBold uppercase text-white flex items-center h-[55px] lg:justify-center px-3 ${ sliderSize === 'true' || sliderSize === true ? 'justify-center' : 'justify-between' }`}>
                 <div className={`${ sliderSize === 'true' || sliderSize === true ? 'hidden animate-fade animate-once animate-delay-500 animate-ease-in-out' : 'animate-fad animate-fade-right animate-once animate-delay-100 animate-ease-in-out' } lg:hidden`}>
                     <LogoComponent mode={true} />
                 </div>

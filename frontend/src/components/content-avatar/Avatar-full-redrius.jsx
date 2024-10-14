@@ -4,6 +4,7 @@ import SingleLaoding from '../content-loading/single-loading';
 import RedirusFullLoading from '../content-loading/redirusfull-loading';
 import { TbLogout2 } from "react-icons/tb";
 import { MdOutlineAccountCircle } from "react-icons/md";
+import { FaAngleDown } from "react-icons/fa6";
 import {
   Menu,
   MenuHandler,
@@ -39,6 +40,7 @@ const AvatarComponent = ({ AvatarName, Cusname }) => {
                   <div className='font-primaryMedium text-white'>
                       <span>{`${Cusname?.firstName} ${Cusname?.lastName}`}</span>
                   </div>
+                  <FaAngleDown className='text-white' />
               </button>
             </MenuHandler>
             <MenuList>

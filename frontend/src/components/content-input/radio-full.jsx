@@ -1,4 +1,3 @@
-import { Input } from "@material-tailwind/react";
 import { Radio } from "@material-tailwind/react";
 import PropTypes from "prop-types";
 

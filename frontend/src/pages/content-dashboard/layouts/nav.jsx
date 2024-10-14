@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import AvatarComponent from '../../../components/content-avatar/Avatar-full-redrius';
 import { Link } from 'react-router-dom';
 import { IoNotifications } from "react-icons/io5";
+import { IoIosSettings } from "react-icons/io";
 import {
     Menu,
     MenuHandler,
@@ -12,6 +13,7 @@ import {
     IconButton,
     Typography,
   } from "@material-tailwind/react";
+import { useState } from 'react';
 
   function ClockIcon() {
     return (
@@ -32,10 +34,18 @@ import {
     );
   }
 
-const NavOfDash = ({ userData, avatarName }) => {
+const NavOfDash = ({ userData, avatarName, DrawerCb }) => {
+
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+    const setopenCb = async () => {
+        await setIsDrawerOpen(!isDrawerOpen);
+        DrawerCb(!isDrawerOpen);
+    };
+
     return(
         <Headroom>
-            <nav className='bg-primaryofdashboard w-full justify-end flex items-center py-4 px-[50px] shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
+            <nav className='bg-primaryofdashboard w-full justify-end flex items-center py-2 px-[50px] shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]'>
                 <div className='flex gap-x-2 items-center'>
                     <div className='flex items-center mr-3 gap-x-3'>
                         <Link className='text-white text-[14px]'>Documentation</Link>
@@ -98,6 +108,9 @@ const NavOfDash = ({ userData, avatarName }) => {
                         </Menu>
                     </div>
                     <AvatarComponent AvatarName={avatarName} Cusname={userData}/>
+                    <button onClick={setopenCb} className='ml-3'>
+                        <IoIosSettings className='text-[25px] text-white animate-spin animate-infinite animate-duration-[1500ms] animate-ease-in-out' />
+                    </button>
                 </div>
             </nav>
         </Headroom>
@@ -107,6 +120,7 @@ const NavOfDash = ({ userData, avatarName }) => {
 NavOfDash.propTypes = {
     userData: PropTypes.any,
     avatarName: PropTypes.any,
+    DrawerCb: PropTypes.any,
 };
 
 export default NavOfDash;

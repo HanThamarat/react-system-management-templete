@@ -8,6 +8,7 @@ import Agencyform from "./pages/content-authenticate/forms/agencyform";
 import ViewDashboardComponent from "./pages/content-dashboard/content-main/dashboard";
 import OrdersView from "./pages/content-dashboard/content-orders/view-orders";
 import PackageViewComponent from "./pages/content-dashboard/content-package/package-view";
+import PageNotFound from "./pages/content-error/404-notfound";
 
 const App = () => {
   return (
@@ -15,7 +16,8 @@ const App = () => {
       <Routes>
         {/* Public Route  */}
         <Route path="/" index element={<ViewHomeComponent />} />
-        <Route path="/authenticate/:type" element={<SigninView />} />  
+        <Route path="/authenticate/:type" element={<SigninView />} />
+        <Route path="*" element={<PageNotFound />} />
 
         {/* Private Route   */}
         <Route element={<PrivateRoute />}>

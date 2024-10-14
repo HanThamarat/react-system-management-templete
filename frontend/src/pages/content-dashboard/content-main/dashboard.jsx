@@ -19,6 +19,26 @@ const ViewDashboardComponent = () => {
       <DashMasterLayout title="Seller Center" path={path}>
         <HereDashboard />
         <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
+        <MemberTypeComponent />
       </DashMasterLayout>
     );
 };
