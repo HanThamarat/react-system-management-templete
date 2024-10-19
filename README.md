@@ -1,5 +1,3 @@
-# BOOKIBG OASIS HOME
-
 # In this project is a Content Management System Templete
 
 Feature
