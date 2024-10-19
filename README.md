@@ -1,4 +1,6 @@
-# In this project is a System Management Templete and Content Management System Templete
+# BOOKIBG OASIS HOME
+
+# In this project is a Content Management System Templete
 
 Feature
 - authenticate using passport

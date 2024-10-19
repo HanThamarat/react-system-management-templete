@@ -26,6 +26,7 @@ const signinForm = () => {
     const auth = useAuth();
     const authToken = Cookies.get('authToken');
     const lastPage = Cookies.get("lastPath");
+    let localpath = window.location.href;
 
     const handleSignup = async () => {
         try {
@@ -77,10 +78,10 @@ const signinForm = () => {
                     setEmail('');
                     setPassword('');
                     setIsLoading(false);
-                    if (lastPage) {
-                       navigate(lastPage); 
+                    if (lastPage === undefined || lastPage === '/') {
+                        window.location.href = `${localpath}home`;
                     } else {
-                        navigate('/dashboard');
+                        window.location.href = `${localpath, lastPage}`;
                     }
                 }
             // eslint-disable-next-line no-unused-vars
@@ -92,7 +93,7 @@ const signinForm = () => {
         if (localStorage.getItem('email') && localStorage.getItem('password')) {
             getdataField();
         }
-    }, [auth, navigate, authToken, lastPage]);
+    }, [auth, navigate, authToken, lastPage, localpath]);
 
     // useEffect(() => {
     //     if (authToken) {
